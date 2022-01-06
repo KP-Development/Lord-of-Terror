@@ -976,4 +976,6 @@ void SetPlrVit(Player &player, int v);
 void InitDungMsgs(Player &player);
 void PlayDungMsgs();
 
+extern int LostGold;
+
 } // namespace devilution

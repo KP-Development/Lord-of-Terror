@@ -493,6 +493,13 @@ void PressKey(SDL_Keycode vkey, uint16_t modState)
 	}
 
 	if (MyPlayerIsDead) {
+		if (vkey == DVL_VK_ESCAPE) {
+			if (!gbIsMultiplayer)
+				gamemenu_load_game(false);
+			else
+				NetSendCmd(true, CMD_RETOWN);
+			return;
+		}
 		if (sgnTimeoutCurs != CURSOR_NONE) {
 			return;
 		}
@@ -508,6 +515,7 @@ void PressKey(SDL_Keycode vkey, uint16_t modState)
 		if (vkey != SDLK_ESCAPE) {
 			return;
 		}
+
 	}
 	if (vkey == SDLK_ESCAPE) {
 		if (!PressEscKey()) {
