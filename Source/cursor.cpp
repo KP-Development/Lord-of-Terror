@@ -241,14 +241,12 @@ void FreeHalfSizeItemSprites()
 	}
 }
 
-void DrawItem(const Item &item, const Surface &out, Point position, ClxSprite clx)
+void DrawItem(const Item &item, const Surface &out, Point position, ClxSprite clx, bool hlight /*= false*/)
 {
-	const bool usable = item._iStatFlag;
-	if (usable) {
-		ClxDraw(out, position, clx);
-	} else {
-		ClxDrawTRN(out, position, clx, GetInfravisionTRN());
-	}
+		if (hlight)
+			ClxDrawTRN(out, position, clx, GetHLightTRN());
+		else
+			ClxDraw(out, position, clx);
 }
 
 void ResetCursor()
@@ -295,7 +293,6 @@ void DrawSoftwareCursor(const Surface &out, Point position, int cursId)
 	const ClxSprite sprite = GetInvItemSprite(cursId);
 	if (!MyPlayer->HoldItem.isEmpty()) {
 		const auto &heldItem = MyPlayer->HoldItem;
-		ClxDrawOutline(out, GetOutlineColor(heldItem, true), position, sprite);
 		DrawItem(heldItem, out, position, sprite);
 	} else {
 		ClxDraw(out, position, sprite);
@@ -474,6 +471,14 @@ void CheckCursMove()
 	if (myPlayer._pInvincible) {
 		return;
 	}
+	if (invflag && GetRightPanel().contains(MousePosition)) {
+		pcursinvitem = CheckInvHLight();
+		return;
+	}
+	if (IsStashOpen && GetLeftPanel().contains(MousePosition)) {
+		pcursstashitem = CheckStashHLight(MousePosition);
+		return;
+	}
 	if (!myPlayer.HoldItem.isEmpty() || spselflag) {
 		cursPosition = { mx, my };
 		return;
@@ -484,13 +489,6 @@ void CheckCursMove()
 	}
 	if (DoomFlag) {
 		return;
-	}
-	if (invflag && GetRightPanel().contains(MousePosition)) {
-		pcursinvitem = CheckInvHLight();
-		return;
-	}
-	if (IsStashOpen && GetLeftPanel().contains(MousePosition)) {
-		pcursstashitem = CheckStashHLight(MousePosition);
 	}
 	if (sbookflag && GetRightPanel().contains(MousePosition)) {
 		return;

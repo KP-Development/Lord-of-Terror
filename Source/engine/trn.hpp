@@ -14,5 +14,6 @@ uint8_t *GetInfravisionTRN();
 uint8_t *GetStoneTRN();
 uint8_t *GetPauseTRN();
 std::optional<std::array<uint8_t, 256>> GetClassTRN(Player &player);
+uint8_t *GetHLightTRN();
 
 } // namespace devilution

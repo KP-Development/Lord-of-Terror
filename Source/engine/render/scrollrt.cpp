@@ -259,16 +259,15 @@ void DrawCursor(const Surface &out)
 		}
 	};
 
-	// Copy the buffer before the item cursor and its 1px outline are drawn to a temporary buffer.
-	const int outlineWidth = !MyPlayer->HoldItem.isEmpty() ? 1 : 0;
+	// Copy the buffer before the item cursor is drawn to a temporary buffer.
 
 	Rectangle &rect = cursor.rect;
-	rect.position.x = MousePosition.x - outlineWidth;
-	rect.size.width = cursSize.width + 2 * outlineWidth;
+	rect.position.x = MousePosition.x;
+	rect.size.width = cursSize.width;
 	Clip(rect.position.x, rect.size.width, out.w());
 
-	rect.position.y = MousePosition.y - outlineWidth;
-	rect.size.height = cursSize.height + 2 * outlineWidth;
+	rect.position.y = MousePosition.y;
+	rect.size.height = cursSize.height;
 	Clip(rect.position.y, rect.size.height, out.h());
 
 	if (rect.size.width == 0 || rect.size.height == 0)

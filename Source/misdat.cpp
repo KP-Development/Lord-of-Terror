@@ -6,6 +6,7 @@
 #include "misdat.h"
 
 #include "engine/load_cl2.hpp"
+#include "engine/load_clx.hpp"
 #include "missiles.h"
 #include "mpq/mpq_common.hpp"
 #include "utils/file_name_generator.hpp"
@@ -24,7 +25,7 @@ constexpr auto Invisible = MissileDataFlags::Invisible;
 } // namespace
 
 /** Data related to each missile ID. */
-MissileData MissilesData[] = {
+const MissileData MissilesData[] = {
 	// clang-format off
 // id                      mAddProc,                mProc,                        mlSFX,       miSFX,       mFileNum,                               flags,                 MovementDistribution;
 /*Arrow*/                { &AddArrow,               &ProcessArrow,                SFX_NONE,    SFX_NONE,    MissileGraphicID::Arrow,                Physical | Arrow,      MissileMovementDistribution::Blockable   },
@@ -286,6 +287,11 @@ void MissileFileData::LoadGFX()
 	if (name[0] == '\0')
 		return;
 
+#ifdef UNPACKED_MPQS
+	char path[MaxMpqPathSize];
+	*BufCopy(path, "missiles\\", name, ".clx") = '\0';
+	sprites.emplace(LoadClxListOrSheet(path));
+#else
 	if (animFAmt == 1) {
 		char path[MaxMpqPathSize];
 		*BufCopy(path, "missiles\\", name) = '\0';
@@ -294,6 +300,7 @@ void MissileFileData::LoadGFX()
 		FileNameGenerator pathGenerator({ "missiles\\", name }, DEVILUTIONX_CL2_EXT);
 		sprites.emplace(OwnedClxSpriteListOrSheet { LoadMultipleCl2Sheet<16>(pathGenerator, animFAmt, animWidth) });
 	}
+#endif
 }
 
 void InitMissileGFX(bool loadHellfireGraphics)

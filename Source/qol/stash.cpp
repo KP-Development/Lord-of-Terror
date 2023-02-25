@@ -357,7 +357,7 @@ void DrawStash(const Surface &out)
 		StashStruct::StashCell itemId = Stash.GetItemIdAtPosition(slot);
 		Item &item = Stash.stashList[itemId];
 		if (Stash.IsItemAtPosition(slot)) {
-			InvDrawSlotBack(out, GetStashSlotCoord(slot) + offset, InventorySlotSizeInPixels, item._iMagical);
+			InvDrawSlotBack(out, GetStashSlotCoord(slot) + offset, InventorySlotSizeInPixels, item);
 		}
 	}
 

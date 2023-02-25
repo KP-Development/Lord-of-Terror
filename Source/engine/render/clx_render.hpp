@@ -13,6 +13,7 @@
 #include "engine.h"
 #include "engine/clx_sprite.hpp"
 #include "engine/point.hpp"
+#include "engine/trn.hpp"
 #include "lighting.h"
 
 namespace devilution {
@@ -101,9 +102,12 @@ inline void ClxDrawLight(const Surface &out, Point position, ClxSprite clx)
  * @param position Target buffer coordinate
  * @param clx CLX frame
  */
-inline void ClxDrawLightBlended(const Surface &out, Point position, ClxSprite clx)
+inline void ClxDrawLightBlended(const Surface &out, Point position, ClxSprite clx, bool hlight = false)
 {
-	ClxDrawBlendedTRN(out, position, clx, &LightTables[LightTableIndex * 256]);
+	if (hlight)
+		ClxDrawBlendedTRN(out, position, clx, GetHLightTRN());
+	else
+		ClxDrawBlendedTRN(out, position, clx, &LightTables[LightTableIndex * 256]);
 }
 
 /**

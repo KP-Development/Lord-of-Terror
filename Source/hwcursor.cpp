@@ -113,11 +113,7 @@ bool SetHardwareCursorFromSprite(int pcurs)
 	if (isItem && !*sgOptions.Graphics.hardwareCursorForItems)
 		return false;
 
-	const int outlineWidth = isItem ? 1 : 0;
-
 	auto size = GetInvItemSize(pcurs);
-	size.width += 2 * outlineWidth;
-	size.height += 2 * outlineWidth;
 
 	if (!IsCursorSizeAllowed(size))
 		return false;
@@ -130,7 +126,7 @@ bool SetHardwareCursorFromSprite(int pcurs)
 	constexpr std::uint8_t TransparentColor = 1;
 	SDL_FillRect(out.surface, nullptr, TransparentColor);
 	SDL_SetColorKey(out.surface, 1, TransparentColor);
-	DrawSoftwareCursor(out, { outlineWidth, size.height - outlineWidth }, pcurs);
+	DrawSoftwareCursor(out, { 0, size.height }, pcurs);
 
 	const bool result = SetHardwareCursor(out.surface, isItem ? HotpointPosition::Center : HotpointPosition::TopLeft);
 	return result;
