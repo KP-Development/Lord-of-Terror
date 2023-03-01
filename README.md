@@ -14,13 +14,11 @@
 
 <sub>*(The health-bar and XP-bar are off by default, but can be enabled in the [game settings](https://github.com/diasurgical/devilutionX/wiki/DevilutionX-diablo.ini-configuration-guide). Widescreen can also be disabled if preferred)*</sub>
 
-# What is DevilutionX
+# What is Lord of Terror
 
-DevilutionX is a port of Diablo and Hellfire that strives to make it simple to run the game while providing engine improvements, bugfixes, and some optional quality of life features.
+Lord of Terror is a fork of DevilutionX, that intends to address parts of the game that are beyond the scope of DevilutionX, including changes that may be too controversial or change core game balance and mechanics. DevilutionX is a port of Diablo and Hellfire that strives to make it simple to run the game while providing engine improvements, bugfixes, and some optional quality of life features.
 
-Check out the [manual](https://github.com/diasurgical/devilutionX/wiki) for what features are available and how best to take advantage of them.
-
-For a full list of changes see our [changelog](docs/CHANGELOG.md).
+For more information about DevilutionX, check out the https://github.com/diasurgical/devilutionX
 
 # How to Install
 
