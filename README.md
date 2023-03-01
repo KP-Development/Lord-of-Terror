@@ -24,9 +24,9 @@ For more information about DevilutionX, check out the https://github.com/diasurg
 
 Note: You'll need access to the data from the original game. If you don't have an original CD then you can [buy Diablo from GoG.com](https://www.gog.com/game/diablo). Alternately you can use `spawn.mpq` from the [shareware](https://github.com/diasurgical/devilutionx-assets/releases/download/v2/spawn.mpq) [[2]](http://ftp.blizzard.com/pub/demos/diablosw.exe) version, in place of `DIABDAT.MPQ`, to play the shareware portion of the game.
 
-Download the latest [DevilutionX release](https://github.com/KP-Development/Lord-of-Terror/releases/latest) and extract the contents to a location of your choosing or [build from source](#building-from-source).
+Download the latest [Lord of Terror release](https://github.com/KP-Development/Lord-of-Terror/releases/latest) and extract the contents to a location of your choosing or [build from source](#building-from-source).
 
-- Copy `DIABDAT.MPQ` from the CD or GOG-installation (or [extract it from the GoG installer](https://github.com/diasurgical/devilutionX/wiki/Extracting-the-.MPQs-from-the-GoG-installer)) to the DevilutionX folder.
+- Copy `DIABDAT.MPQ` from the CD or GOG-installation (or [extract it from the GoG installer](https://github.com/diasurgical/devilutionX/wiki/Extracting-the-.MPQs-from-the-GoG-installer)) to the Lord of Terror folder.
 - To run the Diablo: Hellfire expansion you will need to also copy `hellfire.mpq`, `hfmonk.mpq`, `hfmusic.mpq`, `hfvoice.mpq`.
 
 For more detailed instructions: [Installation Instructions](./docs/installing.md).
