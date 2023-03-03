@@ -368,6 +368,11 @@ struct Player {
 	_difficulty pDifficulty;
 	ItemSpecialEffectHf pDamAcFlags;
 
+	/* Statistics tracking */
+	uint32_t pVisitedShrines[NUMSHRINES];
+	uint32_t pBrokenObjects[NUMBREAKABLEOBJECTS];
+	uint32_t pMonstersKilled[NUM_MTYPES];
+
 	void CalcScrolls();
 
 	bool CanUseItem(const Item &item) const

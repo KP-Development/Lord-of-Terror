@@ -55,9 +55,6 @@ size_t LevelMonsterTypeCount;
 Monster Monsters[MaxMonsters];
 int ActiveMonsters[MaxMonsters];
 size_t ActiveMonsterCount;
-// BUGFIX: replace MonsterKillCounts[MaxMonsters] with MonsterKillCounts[NUM_MTYPES].
-/** Tracks the total number of monsters killed per monster_id. */
-int MonsterKillCounts[MaxMonsters];
 bool sgbSaveSoundOn;
 
 namespace {
@@ -3679,10 +3676,11 @@ void M_StartHit(Monster &monster, const Player &player, int dam)
 
 void MonsterDeath(Monster &monster, Direction md, bool sendmsg)
 {
+	Player &myPlayer = *MyPlayer;
 	if (!monster.isPlayerMinion())
 		AddPlrMonstExper(monster.level(sgGameInitInfo.nDifficulty), monster.exp(sgGameInitInfo.nDifficulty), monster.whoHit);
 
-	MonsterKillCounts[monster.type().type]++;
+	myPlayer.pMonstersKilled[monster.type().type]++;
 	monster.hitPoints = 0;
 	monster.flags &= ~MFLAG_HIDDEN;
 	SetRndSeed(monster.rndItemSeed);
@@ -4222,13 +4220,15 @@ void M_FallenFear(Point position)
 
 void PrintMonstHistory(int mt)
 {
+	Player &myPlayer = *MyPlayer;
+
 	if (*sgOptions.Gameplay.showMonsterType) {
-		AddPanelString(fmt::format(fmt::runtime(_("Type: {:s}  Kills: {:d}")), GetMonsterTypeText(MonstersData[mt]), MonsterKillCounts[mt]));
+		AddPanelString(fmt::format(fmt::runtime(_("Type: {:s}  Kills: {:d}")), GetMonsterTypeText(MonstersData[mt]), myPlayer.pMonstersKilled[mt]));
 	} else {
-		AddPanelString(fmt::format(fmt::runtime(_("Total kills: {:d}")), MonsterKillCounts[mt]));
+		AddPanelString(fmt::format(fmt::runtime(_("Total kills: {:d}")), myPlayer.pMonstersKilled[mt]));
 	}
 
-	if (MonsterKillCounts[mt] >= 30) {
+	if (myPlayer.pMonstersKilled[mt] >= 30) {
 		int minHP = MonstersData[mt].hitPointsMinimum;
 		int maxHP = MonstersData[mt].hitPointsMaximum;
 		if (!gbIsHellfire && mt == MT_DIABLO) {
@@ -4259,7 +4259,7 @@ void PrintMonstHistory(int mt)
 		}
 		AddPanelString(fmt::format(fmt::runtime(_("Hit Points: {:d}-{:d}")), minHP, maxHP));
 	}
-	if (MonsterKillCounts[mt] >= 15) {
+	if (myPlayer.pMonstersKilled[mt] >= 15) {
 		int res = (sgGameInitInfo.nDifficulty != DIFF_HELL) ? MonstersData[mt].resistance : MonstersData[mt].resistanceHell;
 		if ((res & (RESIST_MAGIC | RESIST_FIRE | RESIST_LIGHTNING | IMMUNE_MAGIC | IMMUNE_FIRE | IMMUNE_LIGHTNING)) == 0) {
 			AddPanelString(_("No magic resistance"));

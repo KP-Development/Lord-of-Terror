@@ -1955,6 +1955,69 @@ void SaveHotkeys(SaveWriter &saveWriter, const Player &player)
 	file.WriteLE<uint8_t>(static_cast<uint8_t>(player._pRSplType));
 }
 
+// Returns the size of the visitedshrines file with the number of shrines passed and if a header with the number of shrines is present in the file
+size_t StatisticsSize(size_t nShrines = NUMSHRINES, size_t nBreakableObjects = NUMBREAKABLEOBJECTS, size_t nMonstersKilled = NUM_MTYPES, size_t nSpellsCasted)
+{
+	return (sizeof(uint8_t)) + (nShrines * sizeof(uint32_t)) + (30 * sizeof(uint32_t)) + (nBreakableObjects * sizeof(uint32_t)) + (nMonstersKilled * sizeof(uint32_t)) + (sizeof(uint32_t)) + (nSpellsCasted * sizeof(uint32_t));
+}
+
+void LoadStatistics()
+{
+	LoadHelper file(OpenSaveArchive(gSaveNumber), "statistics");
+	if (!file.IsValid())
+		return;
+
+	Player &myPlayer = *MyPlayer;
+
+	for (auto &numVisitedShrines : myPlayer.pNumVisitedShrines) {
+		numVisitedShrines = file.NextLE<uint32_t>();
+	}
+	file.Skip<uint32_t>(30);
+
+	for (auto &numBrokenObjects : myPlayer.pNumBrokenObjects) {
+		numBrokenObjects = file.NextLE<uint32_t>();
+	}
+	file.Skip<uint32_t>(12);
+
+	for (auto &numMonstersKilled : myPlayer.pNumMonstersKilled)
+		numMonstersKilled = file.NextLE<uint32_t>();
+	file.Skip<uint32_t>(8);
+	
+	player.pNumDeaths = file.NextLE<uint32_t>();
+	
+	for (auto &numSpellsCasted : myPlayer.pNumSpellsCasted)
+		numSpellsCasted = file.NextLE<uint32_t();
+	file.Skip<uint32_t>(1);
+	
+}
+
+void SaveStatistics(SaveWriter &saveWriter, const Player &player)
+{
+	SaveHelper file(saveWriter, "statistics", StatisticsSize());
+
+	for (const auto numVisitedShrines : player.pNumVisitedShrines) {
+		file.WriteLE<uint32_t>(numVisitedShrines);
+	}
+	file.Skip<uint32_t>(30);
+
+	for (const auto numBrokenObjects : player.pNumBrokenObjects) {
+		file.WriteLE<uint32_t>(numBrokenObjects);
+	}
+	file.Skip<uint32_t>(12);
+
+	for (const auto numMonstersKilled : player.pNumMonstersKilled)
+		file.WriteLE<uint32_t>(numMonstersKilled);
+	file.Skip<uint32_t>(8);
+	
+	file.WriteLE<uint32_t>(player.pNumDeaths);
+	
+	for (const auto numSpellsCasted : player.pNumSpellsCasted)
+		file.WriteLE<uint32_t>(numSpellsCasted);
+	file.Skip<uint32_t>(1); // TODO: Change this to add necessary free space for more spells
+	
+	
+}
+
 void LoadHeroItems(Player &player)
 {
 	LoadHelper file(OpenSaveArchive(gSaveNumber), "heroitems");
@@ -2094,8 +2157,8 @@ void LoadGame(bool firstflag)
 	ActiveMonsterCount = tmpNummonsters;
 	ActiveObjectCount = tmpNobjects;
 
-	for (int &monstkill : MonsterKillCounts)
-		monstkill = file.NextBE<int32_t>();
+	// Monster kill counts was moved to statistics, so we are no longer reading it from the SP save file
+	file.Skip<int32_t>(200);
 
 	if (leveltype != DTYPE_TOWN) {
 		for (int &monsterId : ActiveMonsters)
@@ -2348,8 +2411,9 @@ void SaveGameData(SaveWriter &saveWriter)
 		SaveQuest(&file, i);
 	for (int i = 0; i < MAXPORTAL; i++)
 		SavePortal(&file, i);
-	for (int monstkill : MonsterKillCounts)
-		file.WriteBE<int32_t>(monstkill);
+
+	// Monster kill counts was added to statistics
+	file.Skip<int32_t>(200);
 
 	if (leveltype != DTYPE_TOWN) {
 		for (int monsterId : ActiveMonsters)

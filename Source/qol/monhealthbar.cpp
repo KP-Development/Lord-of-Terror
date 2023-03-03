@@ -64,6 +64,7 @@ void DrawMonsterHealthBar(const Surface &out)
 		return;
 
 	const Monster &monster = Monsters[pcursmonst];
+	Player &myPlayer = *MyPlayer;
 
 	const int width = (*healthBox)[0].width();
 	const int barWidth = (*health)[0].width();
@@ -138,7 +139,7 @@ void DrawMonsterHealthBar(const Surface &out)
 
 	if (multiplier > 0)
 		DrawString(out, StrCat("x", multiplier), { position, { width - 2, height } }, UiFlags::ColorWhite | UiFlags::AlignRight | UiFlags::VerticalCenter);
-	if (monster.isUnique() || MonsterKillCounts[monster.type().type] >= 15) {
+	if (monster.isUnique() || myPlayer.pMonstersKilled[monster.type().type] >= 15) {
 		monster_resistance immunes[] = { IMMUNE_MAGIC, IMMUNE_FIRE, IMMUNE_LIGHTNING };
 		monster_resistance resists[] = { RESIST_MAGIC, RESIST_FIRE, RESIST_LIGHTNING };
 

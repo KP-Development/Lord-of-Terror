@@ -116,7 +116,7 @@ int bxadd[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
 /** Specifies the Y-coordinate delta between barrels. */
 int byadd[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
 /** Maps from shrine_id to shrine name. */
-const char *const ShrineNames[] = {
+const char *const ShrineNames[NUMSHRINES] = {
 	// TRANSLATORS: Shrine Name Block
 	N_("Mysterious"),
 	N_("Hidden"),
@@ -155,7 +155,7 @@ const char *const ShrineNames[] = {
 	N_("Murphy's"),
 };
 /** Specifies the minimum dungeon level on which each shrine will appear. */
-char shrinemin[] = {
+char shrinemin[NUMSHRINES] = {
 	1, // Mysterious
 	1, // Hidden
 	1, // Gloomy
@@ -195,7 +195,7 @@ char shrinemin[] = {
 #define MAX_LVLS 24
 
 /** Specifies the maximum dungeon level on which each shrine will appear. */
-char shrinemax[] = {
+char shrinemax[NUMSHRINES] = {
 	MAX_LVLS, // Mysterious
 	MAX_LVLS, // Hidden
 	MAX_LVLS, // Gloomy
@@ -244,7 +244,7 @@ enum shrine_gametype : uint8_t {
 	ShrineTypeMulti,
 };
 
-shrine_gametype shrineavail[] = {
+shrine_gametype shrineavail[NUMSHRINES] = {
 	ShrineTypeAny,    // Mysterious
 	ShrineTypeAny,    // Hidden
 	ShrineTypeSingle, // Gloomy
@@ -2333,6 +2333,7 @@ void OperateShrineMysterious(Player &player)
 	RedrawEverything();
 
 	InitDiabloMsg(EMSG_SHRINE_MYSTERIOUS);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineMysterious)] += 1;
 }
 
 void OperateShrineHidden(Player &player)
@@ -2380,6 +2381,7 @@ void OperateShrineHidden(Player &player)
 	}
 
 	InitDiabloMsg(EMSG_SHRINE_HIDDEN);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineHidden)] += 1;
 }
 
 void OperateShrineGloomy(Player &player)
@@ -2414,6 +2416,7 @@ void OperateShrineGloomy(Player &player)
 	CalcPlrInv(player, true);
 
 	InitDiabloMsg(EMSG_SHRINE_GLOOMY);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineGloomy)] += 1;
 }
 
 void OperateShrineWeird(Player &player)
@@ -2443,9 +2446,10 @@ void OperateShrineWeird(Player &player)
 	CalcPlrInv(player, true);
 
 	InitDiabloMsg(EMSG_SHRINE_WEIRD);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineWeird)] += 1;
 }
 
-void OperateShrineMagical(const Player &player)
+void OperateShrineMagical(Player &player)
 {
 	AddMissile(
 	    player.position.tile,
@@ -2461,6 +2465,7 @@ void OperateShrineMagical(const Player &player)
 		return;
 
 	InitDiabloMsg(EMSG_SHRINE_MAGICAL);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineMagical)] += 1;
 }
 
 void OperateShrineStone(Player &player)
@@ -2476,6 +2481,7 @@ void OperateShrineStone(Player &player)
 	RedrawEverything();
 
 	InitDiabloMsg(EMSG_SHRINE_STONE);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineStone)] += 1;
 }
 
 void OperateShrineReligious(Player &player)
@@ -2488,6 +2494,7 @@ void OperateShrineReligious(Player &player)
 	}
 
 	InitDiabloMsg(EMSG_SHRINE_RELIGIOUS);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineReligious)] += 1;
 }
 
 void OperateShrineEnchanted(Player &player)
@@ -2524,9 +2531,10 @@ void OperateShrineEnchanted(Player &player)
 	}
 
 	InitDiabloMsg(EMSG_SHRINE_ENCHANTED);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineEnchanted)] += 1;
 }
 
-void OperateShrineThaumaturgic(const Player &player)
+void OperateShrineThaumaturgic(Player &player)
 {
 	for (int j = 0; j < ActiveObjectCount; j++) {
 		Object &object = Objects[ActiveObjects[j]];
@@ -2541,6 +2549,7 @@ void OperateShrineThaumaturgic(const Player &player)
 		return;
 
 	InitDiabloMsg(EMSG_SHRINE_THAUMATURGIC);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineThaumaturgic)] += 1;
 }
 
 void OperateShrineCostOfWisdom(Player &player, SpellID spellId, diablo_message message)
@@ -2574,6 +2583,12 @@ void OperateShrineCostOfWisdom(Player &player, SpellID spellId, diablo_message m
 	RedrawEverything();
 
 	InitDiabloMsg(message);
+	if (message == EMSG_SHRINE_FASCINATING)
+		player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineFascinating)] += 1;
+	else if (message == EMSG_SHRINE_SACRED)
+		player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineSacred)] += 1;
+	else if (message == EMSG_SHRINE_ORNATE)
+		player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineOrnate)] += 1;
 }
 
 void OperateShrineCryptic(Player &player)
@@ -2595,6 +2610,7 @@ void OperateShrineCryptic(Player &player)
 	player._pManaBase = player._pMaxManaBase;
 
 	InitDiabloMsg(EMSG_SHRINE_CRYPTIC);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineCryptic)] += 1;
 
 	RedrawEverything();
 }
@@ -2630,6 +2646,7 @@ void OperateShrineEldritch(Player &player)
 	RedrawEverything();
 
 	InitDiabloMsg(EMSG_SHRINE_ELDRITCH);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineEldritch)] += 1;
 }
 
 void OperateShrineEerie(Player &player)
@@ -2643,6 +2660,7 @@ void OperateShrineEerie(Player &player)
 	RedrawEverything();
 
 	InitDiabloMsg(EMSG_SHRINE_EERIE);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineEerie)] += 1;
 }
 
 /**
@@ -2672,9 +2690,10 @@ void OperateShrineDivine(Player &player, Point spawnPosition)
 	RedrawEverything();
 
 	InitDiabloMsg(EMSG_SHRINE_DIVINE);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineDivine)] += 1;
 }
 
-void OperateShrineHoly(const Player &player)
+void OperateShrineHoly(Player &player)
 {
 	AddMissile(player.position.tile, { 0, 0 }, Direction::South, MissileID::Phasing, TARGET_MONSTERS, player.getId(), 0, 2 * leveltype);
 
@@ -2682,6 +2701,7 @@ void OperateShrineHoly(const Player &player)
 		return;
 
 	InitDiabloMsg(EMSG_SHRINE_HOLY);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineHoly)] += 1;
 }
 
 void OperateShrineSpiritual(Player &player)
@@ -2701,12 +2721,14 @@ void OperateShrineSpiritual(Player &player)
 	}
 
 	InitDiabloMsg(EMSG_SHRINE_SPIRITUAL);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineSpiritual)] += 1;
 }
 
-void OperateShrineSpooky(const Player &player)
+void OperateShrineSpooky(Player &player)
 {
 	if (&player == MyPlayer) {
 		InitDiabloMsg(EMSG_SHRINE_SPOOKY1);
+		player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineSpooky)] += 1;
 		return;
 	}
 
@@ -2733,6 +2755,7 @@ void OperateShrineAbandoned(Player &player)
 	RedrawEverything();
 
 	InitDiabloMsg(EMSG_SHRINE_ABANDONED);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineAbandoned)] += 1;
 }
 
 void OperateShrineCreepy(Player &player)
@@ -2746,6 +2769,7 @@ void OperateShrineCreepy(Player &player)
 	RedrawEverything();
 
 	InitDiabloMsg(EMSG_SHRINE_CREEPY);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineCreepy)] += 1;
 }
 
 void OperateShrineQuiet(Player &player)
@@ -2759,9 +2783,10 @@ void OperateShrineQuiet(Player &player)
 	RedrawEverything();
 
 	InitDiabloMsg(EMSG_SHRINE_QUIET);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineQuiet)] += 1;
 }
 
-void OperateShrineSecluded(const Player &player)
+void OperateShrineSecluded(Player &player)
 {
 	if (&player != MyPlayer)
 		return;
@@ -2771,6 +2796,7 @@ void OperateShrineSecluded(const Player &player)
 			UpdateAutomapExplorer({ x, y }, MAP_EXP_SHRINE);
 
 	InitDiabloMsg(EMSG_SHRINE_SECLUDED);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineSecluded)] += 1;
 }
 
 void OperateShrineGlimmering(Player &player)
@@ -2788,12 +2814,14 @@ void OperateShrineGlimmering(Player &player)
 	RedrawEverything();
 
 	InitDiabloMsg(EMSG_SHRINE_GLIMMERING);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineGlimmering)] += 1;
 }
 
-void OperateShrineTainted(const Player &player)
+void OperateShrineTainted(Player &player)
 {
 	if (&player == MyPlayer) {
 		InitDiabloMsg(EMSG_SHRINE_TAINTED1);
+		player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineTainted)] += 1;
 		return;
 	}
 
@@ -2867,6 +2895,7 @@ void OperateShrineOily(Player &player, Point spawnPosition)
 	    0);
 
 	InitDiabloMsg(EMSG_SHRINE_OILY);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineOily)] += 1;
 }
 
 void OperateShrineGlowing(Player &player)
@@ -2887,6 +2916,7 @@ void OperateShrineGlowing(Player &player)
 	RedrawEverything();
 
 	InitDiabloMsg(EMSG_SHRINE_GLOWING);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineGlowing)] += 1;
 }
 
 void OperateShrineMendicant(Player &player)
@@ -2901,6 +2931,7 @@ void OperateShrineMendicant(Player &player)
 	RedrawEverything();
 
 	InitDiabloMsg(EMSG_SHRINE_MENDICANT);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineMendicant)] += 1;
 }
 
 /**
@@ -2928,6 +2959,7 @@ void OperateShrineSparkling(Player &player, Point spawnPosition)
 	RedrawEverything();
 
 	InitDiabloMsg(EMSG_SHRINE_SPARKLING);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineSparkling)] += 1;
 }
 
 /**
@@ -2935,7 +2967,7 @@ void OperateShrineSparkling(Player &player, Point spawnPosition)
  * @param pnum The player that activated the shrine
  * @param spawnPosition The position of the shrine, the portal will be placed on the side closest to the player
  */
-void OperateShrineTown(const Player &player, Point spawnPosition)
+void OperateShrineTown(Player &player, Point spawnPosition)
 {
 	if (&player != MyPlayer)
 		return;
@@ -2951,6 +2983,7 @@ void OperateShrineTown(const Player &player, Point spawnPosition)
 	    0);
 
 	InitDiabloMsg(EMSG_SHRINE_TOWN);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineTown)] += 1;
 }
 
 void OperateShrineShimmering(Player &player)
@@ -2964,6 +2997,7 @@ void OperateShrineShimmering(Player &player)
 	RedrawEverything();
 
 	InitDiabloMsg(EMSG_SHRINE_SHIMMERING);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineShimmering)] += 1;
 }
 
 void OperateShrineSolar(Player &player)
@@ -2987,6 +3021,7 @@ void OperateShrineSolar(Player &player)
 		InitDiabloMsg(EMSG_SHRINE_SOLAR1);
 		ModifyPlrDex(player, 2);
 	}
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineSolar)] += 1;
 
 	CheckStats(player);
 	CalcPlrInv(player, true);
@@ -3015,6 +3050,7 @@ void OperateShrineMurphys(Player &player)
 	}
 
 	InitDiabloMsg(EMSG_SHRINE_MURPHYS);
+	player.pVisitedShrines[static_cast<uint32_t>(shrine_type::ShrineMurphys)] += 1;
 }
 
 void OperateShrine(Player &player, Object &shrine, _sfx_id sType)
@@ -4847,6 +4883,7 @@ void GetObjectStr(const Object &object)
 	case OBJ_SHRINEL:
 	case OBJ_SHRINER:
 		InfoString = fmt::format(fmt::runtime(_(/* TRANSLATORS: {:s} will be a name from the Shrine block above */ "{:s} Shrine")), _(ShrineNames[object._oVar1]));
+		AddPanelString(fmt::format(fmt::runtime(_("Used {:d} times")), MyPlayer->pVisitedShrines[object._oVar1]));
 		break;
 	case OBJ_SKELBOOK:
 		InfoString = _("Skeleton Tome");

@@ -20,6 +20,8 @@
 namespace devilution {
 
 #define MAXOBJECTS 127
+#define NUMSHRINES 34
+#define NUMBREAKABLEOBJECTS 4
 
 struct Object {
 	_object_id _otype = OBJ_NULL;
