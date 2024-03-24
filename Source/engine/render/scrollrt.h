@@ -92,6 +92,5 @@ void scrollrt_draw_game_screen();
  * @brief Render the game
  */
 void DrawAndBlit();
-void DrawDeathText(const Surface &out);
 
 } // namespace devilution

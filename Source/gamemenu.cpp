@@ -283,6 +283,11 @@ void GamemenuReturnToGame(bool /*bActivate*/)
 
 } // namespace
 
+void gamemenu_exit_game(bool bActivate)
+{
+	GamemenuNewGame(bActivate);
+}
+
 void gamemenu_quit_game(bool bActivate)
 {
 	GamemenuNewGame(bActivate);
