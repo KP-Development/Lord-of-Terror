@@ -55,7 +55,6 @@ Player *MyPlayer;
 std::vector<Player> Players;
 Player *InspectPlayer;
 bool MyPlayerIsDead;
-int LostGold;
 
 namespace {
 
@@ -389,9 +388,6 @@ void DropHalfPlayersGold(Player &player)
 	if (remainingGold > 0) {
 		DropGold(player, remainingGold, false);
 	}
-
-	if (&player == MyPlayer)
-		LostGold = player._pGold / 2;
 
 	player._pGold /= 2;
 }
