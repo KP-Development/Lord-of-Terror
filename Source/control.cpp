@@ -1364,7 +1364,6 @@ void RedBack(const Surface &out)
 
 void DrawDeathText(const Surface &out)
 {
-	//LightTableIndex = 0; // Do I need this??
 	const TextRenderOptions largeTextOptions {
 		.flags = UiFlags::FontSize42 | UiFlags::ColorGold | UiFlags::AlignCenter | UiFlags::VerticalCenter,
 		.spacing = 2
