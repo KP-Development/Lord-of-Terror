@@ -652,7 +652,7 @@ uint8_t CalculateDimming(Point tilePosition)
  */
 void DrawFloor(const Surface &out, Point tilePosition, Point targetBufferPosition)
 {
-	LightTableIndex = CalculateDimming(tilePosition);
+	LightTableIndex = leveltype == DTYPE_TOWN ? dLight[tilePosition.x][tilePosition.y] : CalculateDimming(tilePosition);
 
 	const uint8_t *tbl = LightTables[LightTableIndex].data();
 #ifdef _DEBUG
@@ -778,7 +778,7 @@ void DrawPlayerHelper(const Surface &out, const Player &player, Point tilePositi
 void DrawDungeon(const Surface &out, Point tilePosition, Point targetBufferPosition)
 {
 	assert(InDungeonBounds(tilePosition));
-	LightTableIndex = CalculateDimming(tilePosition);
+	LightTableIndex = leveltype == DTYPE_TOWN ? dLight[tilePosition.x][tilePosition.y] : CalculateDimming(tilePosition);
 
 	DrawCell(out, tilePosition, targetBufferPosition);
 
