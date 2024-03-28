@@ -93,11 +93,12 @@ void WalkSouthwards(Player &player, const DirectionSettings & /*walkParams*/)
 	player.position.tile = player.position.future; // Move player to the next tile to maintain correct render order
 	player.occupyTile(player.position.temp, true);
 	player.occupyTile(player.position.tile, false);
-	// BUGFIX: missing `if (leveltype != DTYPE_TOWN) {` for call to ChangeLightXY and PM_ChangeLightOff.
-	ChangeLightXY(player.lightId, player.position.tile);
-	UpdatePlayerLightOffset(player);
-	ChangeVisionXY(player.getId(), player.position.tile);
-	UpdatePlayerVisionOffset(player);
+	if (leveltype != DTYPE_TOWN) {
+		ChangeLightXY(player.lightId, player.position.tile);
+		UpdatePlayerLightOffset(player);
+		ChangeVisionXY(player.getId(), player.position.tile);
+		UpdatePlayerVisionOffset(player);
+	}
 }
 
 void WalkSideways(Player &player, const DirectionSettings &walkParams)
