@@ -299,8 +299,6 @@ void LoadGameArchives()
 		}
 	}
 	hellfire_data_path = FindUnpackedMpqData(paths, "hellfire");
-	if (hellfire_data_path)
-		gbIsHellfire = true;
 	if (forceHellfire && !hellfire_data_path)
 		InsertCDDlg("hellfire");
 
@@ -337,27 +335,6 @@ void LoadGameArchives()
 			LogError("{}", SDL_GetError());
 			InsertCDDlg(_("diabdat.mpq or spawn.mpq"));
 		}
-	}
-
-	hellfire_mpq = LoadMPQ(paths, "hellfire.mpq");
-	if (hellfire_mpq)
-		gbIsHellfire = true;
-	if (forceHellfire && !hellfire_mpq)
-		InsertCDDlg("hellfire.mpq");
-
-	hfmonk_mpq = LoadMPQ(paths, "hfmonk.mpq");
-	hfbard_mpq = LoadMPQ(paths, "hfbard.mpq");
-	if (hfbard_mpq)
-		gbBard = true;
-	hfbarb_mpq = LoadMPQ(paths, "hfbarb.mpq");
-	if (hfbarb_mpq)
-		gbBarbarian = true;
-	hfmusic_mpq = LoadMPQ(paths, "hfmusic.mpq");
-	hfvoice_mpq = LoadMPQ(paths, "hfvoice.mpq");
-
-	if (gbIsHellfire && (!hfmonk_mpq || !hfmusic_mpq || !hfvoice_mpq)) {
-		UiErrorOkDialog(_("Some Hellfire MPQs are missing"), _("Not all Hellfire MPQs were found.\nPlease copy all the hf*.mpq files."));
-		diablo_quit(1);
 	}
 #endif
 }

@@ -1095,8 +1095,6 @@ void DiabloParseFlags(int argc, char **argv)
 			forceSpawn = true;
 		} else if (arg == "--diablo") {
 			forceDiablo = true;
-		} else if (arg == "--hellfire") {
-			forceHellfire = true;
 		} else if (arg == "--vanilla") {
 			gbVanilla = true;
 		} else if (arg == "--verbose") {
@@ -1193,8 +1191,6 @@ void DiabloInit()
 		gbIsSpawn = true;
 	if (forceDiablo || *sgOptions.StartUp.gameMode == StartUpGameMode::Diablo)
 		gbIsHellfire = false;
-	if (forceHellfire)
-		gbIsHellfire = true;
 
 	gbIsHellfireSaveGame = gbIsHellfire;
 
