@@ -386,20 +386,16 @@ struct Monster { // note: missing field _mAFNum
 			if (baseLevel != 0) {
 				baseLevel *= 2;
 			} else {
-				baseLevel = data().level + 5;
+				baseLevel = data().level + 4;
 			}
-		}
-
-		if (type().type == MT_DIABLO && !gbIsHellfire) {
-			baseLevel -= 15;
 		}
 
 		if (difficulty == DIFF_NIGHTMARE) {
 			baseLevel += 15;
 		} else if (difficulty == DIFF_HELL) {
-			baseLevel += 30;
+			baseLevel += 25;
 		} else if (difficulty == DIFF_INFERNO) {
-			baseLevel += 40;
+			baseLevel += 35;
 		}
 
 		return baseLevel;
