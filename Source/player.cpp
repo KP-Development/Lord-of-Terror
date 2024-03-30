@@ -2441,9 +2441,12 @@ void Player::_addExperience(uint32_t experience, int levelDelta)
 		return;
 	}
 
+	// levelDelta is monsterLevel - playerLevel; delta is negative if playerLevel exceeds monsterLevel
 	// Adjust xp based on difference between the players current level and the target level (usually a monster level)
-	// If the monster level is 10 or more away from the player level in either direction, no experience will be gained
+	// If the monster level is 10 less than player level, or 20 or more greater than player level, no experience will be gained
 	// BUGFIX: Certain unique monsters may never give experience
+	if (levelDelta >= 10)
+		levelDelta -= 10;
 	uint32_t clampedExp = static_cast<uint32_t>(std::clamp<int64_t>(static_cast<int64_t>(experience * (1 - std::abs(levelDelta) / 10.0)), 0, std::numeric_limits<uint32_t>::max()));
 
 	const uint32_t maxExperience = GetNextExperienceThresholdForLevel(getMaxCharacterLevel());
