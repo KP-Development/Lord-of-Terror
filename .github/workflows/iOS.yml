@@ -56,21 +56,21 @@ jobs:
         cmake --build build -j $(sysctl -n hw.physicalcpu) --config Release &&
         cd build &&
         mkdir Payload &&
-        mv lordofterror.app Payload &&
-        zip -r lordofterror-iOS.ipa Payload
+        mv devilutionx.app Payload &&
+        zip -r devilutionx-iOS.ipa Payload
 
     - name: Upload-Package
       if: ${{ !env.ACT }}
       uses: actions/upload-artifact@v4
       with:
-        name: lordofterror-iOS.ipa
-        path: build/lordofterror-iOS.ipa
+        name: devilutionx-iOS.ipa
+        path: build/devilutionx-iOS.ipa
 
     - name: Update Release
       if: ${{ github.event_name == 'release' && !env.ACT }}
       uses: svenstaro/upload-release-action@v2
       with:
-        file: build/lordofterror-iOS.ipa
+        file: build/devilutionx-iOS.ipa
         overwrite: true
 
     - name: Clean up artifacts

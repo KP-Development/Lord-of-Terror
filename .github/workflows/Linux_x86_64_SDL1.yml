@@ -56,8 +56,8 @@ jobs:
       if: ${{ !env.ACT }}
       uses: actions/upload-artifact@v4
       with:
-        name: lordofterror_linux_x86_64_SDL1.tar.xz
-        path: lordofterror.tar.xz
+        name: devilutionx_linux_x86_64_SDL1.tar.xz
+        path: devilutionx.tar.xz
 
     - name: Clean up artifacts
       run: rm -rf build/_CPack_Packages build/package build/*.deb build/*.rpm build/*.appimage build/*.tar.xz

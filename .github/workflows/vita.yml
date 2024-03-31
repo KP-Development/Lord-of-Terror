@@ -47,21 +47,21 @@ jobs:
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
             -DCMAKE_TOOLCHAIN_FILE=${VITASDK}/share/vita.toolchain.cmake
 
-      - name: Build Lord of Terror
+      - name: Build DevilutionX
         run: cmake --build build
 
       - name: Upload Package
         if: ${{ !env.ACT }}
         uses: actions/upload-artifact@v4
         with:
-          name: lordofterror.vpk
-          path: ./build/lordofterror.vpk
+          name: devilutionx.vpk
+          path: ./build/devilutionx.vpk
 
       - name: Update Release
         if: ${{ github.event_name == 'release' && !env.ACT }}
         uses: svenstaro/upload-release-action@v2
         with:
-          asset_name: lordofterror-vita.vpk
-          file: ./build/lordofterror.vpk
+          asset_name: devilutionx-vita.vpk
+          file: ./build/devilutionx.vpk
           overwrite: true
 ...

@@ -62,29 +62,29 @@ jobs:
         if: ${{ !env.ACT }}
         uses: actions/upload-artifact@v4
         with:
-          name: lordofterror.3dsx
-          path: ./build/lordofterror.3dsx
+          name: devilutionx.3dsx
+          path: ./build/devilutionx.3dsx
 
       - name: Upload cia Package
         if: ${{ !env.ACT }}
         uses: actions/upload-artifact@v4
         with:
-          name: lordofterror.cia
-          path: ./build/lordofterror.cia
+          name: devilutionx.cia
+          path: ./build/devilutionx.cia
 
       - name: Update Release 3dsx
         if: ${{ github.event_name == 'release' && !env.ACT }}
         uses: svenstaro/upload-release-action@v2
         with:
-          asset_name: lordofterror-3ds.3dsx
-          file: ./build/lordofterror.3dsx
+          asset_name: devilutionx-3ds.3dsx
+          file: ./build/devilutionx.3dsx
           overwrite: true
 
       - name: Update Release cia
         if: ${{ github.event_name == 'release' && !env.ACT }}
         uses: svenstaro/upload-release-action@v2
         with:
-          asset_name: lordofterror-3ds.cia
-          file: ./build/lordofterror.cia
+          asset_name: devilutionx-3ds.cia
+          file: ./build/devilutionx.cia
           overwrite: true
 ...
