@@ -63,9 +63,9 @@ jobs:
       if: ${{ !env.ACT }}
       uses: actions/upload-artifact@v4
       with:
-        name: devilutionx.exe
+        name: lordofterror.exe
         path: |
-            build-ninja-vcpkg-relwithdebinfo/devilutionx.exe
+            build-ninja-vcpkg-relwithdebinfo/lordofterror.exe
             build-ninja-vcpkg-relwithdebinfo/bz2.dll
             build-ninja-vcpkg-relwithdebinfo/fmt.dll
             build-ninja-vcpkg-relwithdebinfo/libpng16.dll

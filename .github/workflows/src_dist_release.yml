@@ -28,20 +28,20 @@ jobs:
 
     - name: Build
       working-directory: ${{github.workspace}}
-      run: tools/make_src_dist.py && mv build-src-dist/devilutionx-*.tar.xz devilutionx-src.tar.xz
+      run: tools/make_src_dist.py && mv build-src-dist/lordofterror-*.tar.xz lordofterror-src.tar.xz
 
     - name: Upload-Package
       if: ${{ !env.ACT }}
       uses: actions/upload-artifact@v4
       with:
-        name: devilutionx-src.tar.xz
-        path: devilutionx-src.tar.xz
+        name: lordofterror-src.tar.xz
+        path: lordofterror-src.tar.xz
 
     - name: Update Release
       if: ${{ github.event_name == 'release' && !env.ACT }}
       uses: svenstaro/upload-release-action@v2
       with:
-        file: "devilutionx-src.tar.xz"
+        file: "lordofterror-src.tar.xz"
         overwrite: true
 
   make_src_dist_fully_vendored:
@@ -59,18 +59,18 @@ jobs:
 
     - name: Build
       working-directory: ${{github.workspace}}
-      run: tools/make_src_dist.py --fully_vendored && mv build-src-dist/devilutionx-*.tar.xz devilutionx-src-fully-vendored.tar.xz
+      run: tools/make_src_dist.py --fully_vendored && mv build-src-dist/lordofterror-*.tar.xz lordofterror-src-fully-vendored.tar.xz
 
     - name: Upload-Package
       if: ${{ !env.ACT }}
       uses: actions/upload-artifact@v4
       with:
-        name: devilutionx-src-fully-vendored.tar.xz
-        path: devilutionx-src-fully-vendored.tar.xz
+        name: lordofterror-src-fully-vendored.tar.xz
+        path: lordofterror-src-fully-vendored.tar.xz
 
     - name: Update Release
       if: ${{ github.event_name == 'release' && !env.ACT }}
       uses: svenstaro/upload-release-action@v2
       with:
-        file: "devilutionx-src-fully-vendored.tar.xz"
+        file: "lordofterror-src-fully-vendored.tar.xz"
         overwrite: true

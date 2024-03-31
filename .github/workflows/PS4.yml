@@ -49,13 +49,13 @@ jobs:
       if: ${{ !env.ACT }}
       uses: actions/upload-artifact@v4
       with:
-        name: devilutionx-ps4.pkg
-        path: build-ps4/devilutionx.pkg
+        name: lordofterror-ps4.pkg
+        path: build-ps4/lordofterror.pkg
 
     - name: Update Release
       if: ${{ github.event_name == 'release' && !env.ACT }}
       uses: svenstaro/upload-release-action@v2
       with:
-        asset_name: devilutionx-ps4.pkg
-        file: build-ps4/devilutionx.pkg
+        asset_name: lordofterror-ps4.pkg
+        file: build-ps4/lordofterror.pkg
         overwrite: true

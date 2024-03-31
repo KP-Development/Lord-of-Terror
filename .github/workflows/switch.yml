@@ -45,21 +45,21 @@ jobs:
             -D CMAKE_BUILD_TYPE=RelWithDebInfo \
             -D CMAKE_TOOLCHAIN_FILE=/opt/devkitpro/cmake/Switch.cmake
 
-      - name: Build DevilutionX
+      - name: Build Lord of Terror
         run: cmake --build build -j$(nproc)
 
       - name: Upload Package
         if: ${{ !env.ACT }}
         uses: actions/upload-artifact@v4
         with:
-          name: devilutionx.nro
-          path: ./build/devilutionx.nro
+          name: lordofterror.nro
+          path: ./build/lordofterror.nro
 
       - name: Update Release
         if: ${{ github.event_name == 'release' && !env.ACT }}
         uses: svenstaro/upload-release-action@v2
         with:
-          asset_name: devilutionx-switch.nro
-          file: ./build/devilutionx.nro
+          asset_name: lordofterror-switch.nro
+          file: ./build/lordofterror.nro
           overwrite: true
 ...

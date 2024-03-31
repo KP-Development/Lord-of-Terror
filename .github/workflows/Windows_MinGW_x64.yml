@@ -47,37 +47,37 @@ jobs:
       if: ${{ !env.ACT }}
       uses: actions/upload-artifact@v4
       with:
-        name: devilutionx_x64.zip
-        path: build/devilutionx.zip
+        name: lordofterror_x64.zip
+        path: build/lordofterror.zip
 
     - name: Move artifacts to new folder and split exe and other data into two folders
-      if: ${{ !env.ACT && github.ref == 'refs/heads/master' && github.event_name != 'pull_request' && github.repository == 'diasurgical/devilutionX'}}
+      if: ${{ !env.ACT && github.ref == 'refs/heads/master' && github.event_name != 'pull_request' && github.repository == 'KP-Development/Lord-Of-Terror'}}
       working-directory: ${{github.workspace}}
       shell: bash
-      run: mkdir artifacts_dir && unzip build/devilutionx.zip -d artifacts_dir && mkdir artifacts_dir/exe_dir && mv artifacts_dir/devilutionx/devilutionx.exe artifacts_dir/exe_dir && zip -m artifacts_dir/exe_dir/build.zip artifacts_dir/exe_dir/devilutionx.exe
+      run: mkdir artifacts_dir && unzip build/lordofterror.zip -d artifacts_dir && mkdir artifacts_dir/exe_dir && mv artifacts_dir/lordofterror/lordofterror.exe artifacts_dir/exe_dir && zip -m artifacts_dir/exe_dir/build.zip artifacts_dir/exe_dir/lordofterror.exe
 
     - name: Pushes DLLs and devilutionx.mpq to another repository
-      if: ${{ !env.ACT && github.ref == 'refs/heads/master' && github.event_name != 'pull_request' && github.repository == 'diasurgical/devilutionX' }}
+      if: ${{ !env.ACT && github.ref == 'refs/heads/master' && github.event_name != 'pull_request' && github.repository == 'KP-Development/Lord-Of-Terror' }}
       uses: cpina/github-action-push-to-another-repository@main
       env:
         SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
       with:
-        source-directory: artifacts_dir/devilutionx/
+        source-directory: artifacts_dir/lordofterror/
         destination-github-username: 'artifacts-storage'
-        destination-repository-name: 'devilutionx-artifacts'
+        destination-repository-name: 'lordofterror-artifacts'
         target-directory: data
         commit-message: "[DATA] ${{ github.event.head_commit.message }}"
         target-branch: master
 
     - name: Pushes exe to another repository
-      if: ${{ !env.ACT && github.ref == 'refs/heads/master' && github.event_name != 'pull_request' && github.repository == 'diasurgical/devilutionX' }}
+      if: ${{ !env.ACT && github.ref == 'refs/heads/master' && github.event_name != 'pull_request' && github.repository == 'KP-Development/Lord-Of-Terror' }}
       uses: cpina/github-action-push-to-another-repository@main
       env:
         SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
       with:
         source-directory: artifacts_dir/exe_dir
         destination-github-username: 'artifacts-storage'
-        destination-repository-name: 'devilutionx-artifacts'
+        destination-repository-name: 'lordofterror-artifacts'
         target-directory: ${{ github.sha }}
         commit-message: "[EXE] ${{ github.event.head_commit.message }}"
         target-branch: master

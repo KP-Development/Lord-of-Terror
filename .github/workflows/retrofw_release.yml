@@ -41,12 +41,12 @@ jobs:
       if: ${{ !env.ACT }}
       uses: actions/upload-artifact@v4
       with:
-        name: devilutionx-retrofw.opk.zip
-        path: build-retrofw/devilutionx-retrofw.opk
+        name: lordofterror-retrofw.opk.zip
+        path: build-retrofw/lordofterror-retrofw.opk
 
     - name: Update Release
       if: ${{ github.event_name == 'release' && !env.ACT }}
       uses: svenstaro/upload-release-action@v2
       with:
-        file: "build-retrofw/devilutionx-retrofw.opk"
+        file: "build-retrofw/lordofterror-retrofw.opk"
         overwrite: true

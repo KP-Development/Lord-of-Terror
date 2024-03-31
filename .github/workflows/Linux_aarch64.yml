@@ -83,32 +83,32 @@ jobs:
         cmake --build build -j $(getconf _NPROCESSORS_ONLN) --target package
 
     - name: Package
-      run: Packaging/nix/LinuxReleasePackaging.sh && mv devilutionx.tar.xz devilutionx-aarch64-linux-gnu.tar.xz
+      run: Packaging/nix/LinuxReleasePackaging.sh && mv lordofterror.tar.xz lordofterror-aarch64-linux-gnu.tar.xz
 
     # AppImage cross-packaging is not implemented yet.
     # - name: Package AppImage
-    #   run: Packaging/nix/AppImage.sh && mv devilutionx.appimage devilutionx-aarch64-linux-gnu.appimage
+    #   run: Packaging/nix/AppImage.sh && mv lordofterror.appimage lordofterror-aarch64-linux-gnu.appimage
 
     - name: Upload Package
       if: ${{ !env.ACT }}
       uses: actions/upload-artifact@v4
       with:
-        name: devilutionx-aarch64-linux-gnu.tar.xz
-        path: devilutionx-aarch64-linux-gnu.tar.xz
+        name: lordofterror-aarch64-linux-gnu.tar.xz
+        path: lordofterror-aarch64-linux-gnu.tar.xz
 
     # AppImage cross-packaging is not implemented yet.
     # - name: Upload AppImage
     #   if: ${{ !env.ACT }}
     #   uses: actions/upload-artifact@v4
     #   with:
-    #     name: devilutionx-aarch64-linux-gnu.appimage
-    #     path: devilutionx-aarch64-linux-gnu.appimage
+    #     name: lordofterror-aarch64-linux-gnu.appimage
+    #     path: lordofterror-aarch64-linux-gnu.appimage
 
     - name: Update Release
       if: ${{ github.event_name == 'release' && !env.ACT }}
       uses: svenstaro/upload-release-action@v2
       with:
-        file: devilutionx-aarch64-linux-gnu.*
+        file: lordofterror-aarch64-linux-gnu.*
         file_glob: true
         overwrite: true
 

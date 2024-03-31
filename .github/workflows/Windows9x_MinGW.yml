@@ -49,18 +49,18 @@ jobs:
       shell: bash
       run: |
         cmake --build build-windows9x -j $(nproc) --target package
-        mv build-windows9x/devilutionx.zip devilutionx-win9x.zip
+        mv build-windows9x/lordofterror.zip lordofterror-win9x.zip
 
     - name: Upload-Package
       if: ${{ !env.ACT }}
       uses: actions/upload-artifact@v4
       with:
-        path: devilutionx-win9x.zip
+        path: lordofterror-win9x.zip
 
     - name: Update Release
       if: ${{ github.event_name == 'release' && !env.ACT }}
       uses: svenstaro/upload-release-action@v2
       with:
-        file: devilutionx-win9x.zip
+        file: lordofterror-win9x.zip
         overwrite: true
 

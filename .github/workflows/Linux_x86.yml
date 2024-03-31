@@ -76,32 +76,32 @@ jobs:
         cmake --build build -j $(getconf _NPROCESSORS_ONLN) --target package
 
     - name: Package
-      run: Packaging/nix/LinuxReleasePackaging.sh && mv devilutionx.tar.xz devilutionx-i386-linux-gnu.tar.xz
+      run: Packaging/nix/LinuxReleasePackaging.sh && mv lordofterror.tar.xz lordofterror-i386-linux-gnu.tar.xz
 
     # AppImage cross-packaging is not implemented yet.
     # - name: Package AppImage
-    #   run: Packaging/nix/AppImage.sh && mv devilutionx.appimage devilutionx-i386-linux-gnu.appimage
+    #   run: Packaging/nix/AppImage.sh && mv lordofterror.appimage lordofterror-i386-linux-gnu.appimage
 
     - name: Upload Package
       if: ${{ !env.ACT }}
       uses: actions/upload-artifact@v4
       with:
-        name: devilutionx-i386-linux-gnu.tar.xz
-        path: devilutionx-i386-linux-gnu.tar.xz
+        name: lordofterror-i386-linux-gnu.tar.xz
+        path: lordofterror-i386-linux-gnu.tar.xz
 
     # AppImage cross-packaging is not implemented yet.
     # - name: Upload AppImage
     #   if: ${{ !env.ACT }}
     #   uses: actions/upload-artifact@v4
     #   with:
-    #     name: devilutionx-i386-linux-gnu.appimage
-    #     path: devilutionx-i386-linux-gnu.appimage
+    #     name: lordofterror-i386-linux-gnu.appimage
+    #     path: lordofterror-i386-linux-gnu.appimage
 
     - name: Update Release
       if: ${{ github.event_name == 'release' && !env.ACT }}
       uses: svenstaro/upload-release-action@v2
       with:
-        file: devilutionx-i386-linux-gnu.*
+        file: lordofterror-i386-linux-gnu.*
         file_glob: true
         overwrite: true
 

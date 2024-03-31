@@ -44,21 +44,21 @@ jobs:
             -D M68K_CPU=68040 \
             -D M68K_FPU=hard
 
-      - name: Build DevilutionX
+      - name: Build Lord of Terror
         run: cmake --build build
 
       - name: Upload Package
         if: ${{ !env.ACT }}
         uses: actions/upload-artifact@v4
         with:
-          name: devilutionx_m68k
-          path: ./build/devilutionx
+          name: lordofterror_m68k
+          path: ./build/lordofterror
 
       - name: Update Release
         if: ${{ github.event_name == 'release' && !env.ACT }}
         uses: svenstaro/upload-release-action@v2
         with:
-          asset_name: devilutionx-amiga-m68k
-          file: ./build/devilutionx
+          asset_name: lordofterror-amiga-m68k
+          file: ./build/lordofterror
           overwrite: true
 ...
