@@ -74,7 +74,7 @@ if(NOT VERSION_SUFFIX)
   endif()
 endif()
 
-project(LordOfTerror
+project(DevilutionX
   VERSION ${VERSION_NUM}
   LANGUAGES C CXX)
 set(PROJECT_VERSION_WITH_SUFFIX "${VERSION_PREFIX}${VERSION_SUFFIX}")
@@ -319,7 +319,7 @@ include(Dependencies)
 
 add_subdirectory(Source)
 
-set(BIN_TARGET lordofterror)
+set(BIN_TARGET devilutionx)
 if(NINTENDO_3DS)
   set(BIN_TARGET ${BIN_TARGET}.elf)
 endif()
@@ -375,10 +375,10 @@ set_relative_file_macro(${BIN_TARGET})
 
 if(APPLE)
   set_source_files_properties("./Packaging/apple/AppIcon.icns" PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
-  set(MACOSX_BUNDLE_GUI_IDENTIFIER com.kpdevelopment.lordofterror)
+  set(MACOSX_BUNDLE_GUI_IDENTIFIER com.diasurgical.devilutionx)
   set(MACOSX_BUNDLE_COPYRIGHT Unlicense)
-  set(MACOSX_BUNDLE_BUNDLE_NAME lordofterror)
-  set(MACOSX_BUNDLE_DISPLAY_NAME LordOfTerror)
+  set(MACOSX_BUNDLE_BUNDLE_NAME devilutionx)
+  set(MACOSX_BUNDLE_DISPLAY_NAME DevilutionX)
   set(MACOSX_BUNDLE_INFO_STRING ${PROJECT_VERSION})
   set(MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION})
   set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION})
@@ -430,21 +430,21 @@ if(NINTENDO_SWITCH)
 endif()
 
 if(VITA)
-  set(VITA_APP_NAME "Lord of Terror")
-  set(VITA_TITLEID  "DLOT00001")
+  set(VITA_APP_NAME "devilutionX")
+  set(VITA_TITLEID  "DVLX00001")
   set(VITA_VERSION  "01.00")
   set(VITA_MKSFOEX_FLAGS "${VITA_MKSFOEX_FLAGS} -d PARENTAL_LEVEL=1")
   set(VITA_MKSFOEX_FLAGS "${VITA_MKSFOEX_FLAGS} -d ATTRIBUTE2=12")
-  vita_create_self(lordofterror.self lordofterror UNSAFE)
+  vita_create_self(devilutionx.self devilutionx UNSAFE)
   if(BUILD_ASSETS_MPQ OR SRC_DIST)
-    vita_create_vpk(lordofterror.vpk ${VITA_TITLEID} lordofterror.self
+    vita_create_vpk(devilutionx.vpk ${VITA_TITLEID} devilutionx.self
       VERSION ${VITA_VERSION}
       NAME ${VITA_APP_NAME}
       FILE Packaging/vita/sce_sys sce_sys
       FILE ${DEVILUTIONX_MPQ} devilutionx.mpq
     )
   else()
-    vita_create_vpk(lordofterror.vpk ${VITA_TITLEID} lordofterror.self
+    vita_create_vpk(devilutionx.vpk ${VITA_TITLEID} devilutionx.self
       VERSION ${VITA_VERSION}
       NAME ${VITA_APP_NAME}
       FILE Packaging/vita/sce_sys sce_sys
@@ -461,13 +461,13 @@ if(PS4)
     COMMAND ${CMAKE_COMMAND} -E copy ${DEVILUTIONX_MPQ} "${PROJECT_SOURCE_DIR}/Packaging/ps4/")
   add_self(${BIN_TARGET})
   add_pkg(${BIN_TARGET} "${PROJECT_SOURCE_DIR}/Packaging/ps4"
-    "DLOT00001" "Lord of Terror" "${PROJECT_VERSION}")
+    "DVLX00001" "DevilutionX" "${PROJECT_VERSION}")
 endif()
 
 if(NINTENDO_3DS)
-  set(APP_TITLE       "Lord of Terror")
-  set(APP_DESCRIPTION "Lord of Terror for 3DS")
-  set(APP_AUTHOR      "KP Development")
+  set(APP_TITLE       "DevilutionX")
+  set(APP_DESCRIPTION "DevilutionX port for 3DS")
+  set(APP_AUTHOR      "Diasurgical Team")
   set(APP_ICON        "${PROJECT_SOURCE_DIR}/Packaging/ctr/icon.png")
   set(APP_BANNER      "${PROJECT_SOURCE_DIR}/Packaging/ctr/banner.png")
   set(APP_AUDIO       "${CMAKE_BINARY_DIR}/banner_audio.wav")
@@ -505,7 +505,7 @@ if(NXDK)
   add_custom_command(
     OUTPUT "${_xbe_path}"
     COMMAND "${CMAKE_COMMAND}" -E make_directory "${_nxdk_pkg_dir}"
-    COMMAND "${NXDK_DIR}/tools/cxbe/cxbe" "-OUT:${_xbe_path}" -TITLE:LordOfTerror "-Logo:${PROJECT_SOURCE_DIR}/Packaging/xbox_nxdk/xbe_logo.pgm" "${CMAKE_BINARY_DIR}/${BIN_TARGET}.exe"
+    COMMAND "${NXDK_DIR}/tools/cxbe/cxbe" "-OUT:${_xbe_path}" -TITLE:DevilutionX "-Logo:${PROJECT_SOURCE_DIR}/Packaging/xbox_nxdk/xbe_logo.pgm" "${CMAKE_BINARY_DIR}/${BIN_TARGET}.exe"
     DEPENDS "${BIN_TARGET}"
   )
   add_custom_target(nxdk_xbe DEPENDS "${_xbe_path}")
@@ -528,7 +528,7 @@ if(CPACK AND (APPLE OR BUILD_ASSETS_MPQ OR SRC_DIST))
       "${SDL2_WIN32_LICENSES_DIR}/LICENSE*.txt"
       "${SDL2_WIN32_LICENSES_DIR}/README*.txt")
 
-    set(CPACK_PACKAGE_FILE_NAME "lordofterror")
+    set(CPACK_PACKAGE_FILE_NAME "devilutionx")
     set(CPACK_PACKAGE_NAME ${project_name})
     set(CPACK_GENERATOR "ZIP")
     set(CPACK_STRIP_FILES TRUE)
@@ -589,10 +589,10 @@ if(CPACK AND (APPLE OR BUILD_ASSETS_MPQ OR SRC_DIST))
       DESTINATION "share/applications"
     )
     install(FILES "${PROJECT_SOURCE_DIR}/Packaging/nix/README.txt"
-      DESTINATION "share/kpdevelopment/${project_name}"
+      DESTINATION "share/diasurgical/${project_name}"
     )
     install(FILES "${DEVILUTIONX_MPQ}"
-      DESTINATION "share/kpdevelopment/${project_name}"
+      DESTINATION "share/diasurgical/${project_name}"
     )
     install(FILES "${PROJECT_SOURCE_DIR}/Packaging/resources/icon.png"
       DESTINATION "share/icons/hicolor/512x512/apps"
@@ -602,7 +602,7 @@ if(CPACK AND (APPLE OR BUILD_ASSETS_MPQ OR SRC_DIST))
       DESTINATION "share/icons/hicolor/512x512/apps"
       RENAME "${project_name}-hellfire.png"
     )
-    install(FILES "${PROJECT_SOURCE_DIR}/Packaging/nix/lordofterror.metainfo.xml"
+    install(FILES "${PROJECT_SOURCE_DIR}/Packaging/nix/devilutionx.metainfo.xml"
       DESTINATION "share/metainfo"
       RENAME "${project_name}.metainfo.xml"
     )
@@ -611,7 +611,7 @@ if(CPACK AND (APPLE OR BUILD_ASSETS_MPQ OR SRC_DIST))
     endif()
 
     # -G DEB
-    set(CPACK_PACKAGE_CONTACT "ericjrobinson@live.com")
+    set(CPACK_PACKAGE_CONTACT "anders@jenbo.dk")
     if(USE_SDL1)
     set(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl1.2debian")
     else()
@@ -632,7 +632,7 @@ if(CPACK AND (APPLE OR BUILD_ASSETS_MPQ OR SRC_DIST))
     endif()
 
   elseif(APPLE)
-    set(CPACK_PACKAGE_FILE_NAME "lordofterror")
+    set(CPACK_PACKAGE_FILE_NAME "devilutionx")
     set(CPACK_DMG_DISABLE_APPLICATIONS_SYMLINK "ON")
     set(CPACK_STRIP_FILES TRUE)
     set(CPACK_GENERATOR "DragNDrop")
